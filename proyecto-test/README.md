@@ -44,9 +44,5 @@ Se utiliza [Fake Store API](https://fakestoreapi.com/) para obtener los producto
 
 ## Autor
 
-Desarrollado por [Tu Nombre].
-
----
-
-¡Explora, agrega productos y disfruta de una experiencia de compra moderna!
+Desarrollado por Ivo Gigirey.
 
