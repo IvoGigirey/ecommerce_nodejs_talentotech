@@ -36,8 +36,8 @@ function App() {
 
   return (
     <Router>
+      <Navbar cartCount={cartItems.length} />
       <div className="app">
-        <Navbar cartCount={cartItems.length} />
         <Routes>
           <Route path="/" element={<ProductList addToCart={addToCart} />} />
           <Route
@@ -50,7 +50,6 @@ function App() {
           />
           <Route path="/product/:id" element={<ProductDetail addToCart={addToCart} />} />
         </Routes>
-        {/* Botón flotante de carrito */}
         <FloatingCartButton count={cartItems.length} />
       </div>
     </Router>
