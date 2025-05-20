@@ -22,7 +22,7 @@ Este proyecto es una tienda online desarrollada en React que permite a los usuar
 
 1. Clona el repositorio:
    ```sh
-   git clone https://github.com/tuusuario/tu-repo.git
+   git clone https://github.com/IvoGigirey/ecommerce_nodejs_talentotech/tree/main/proyecto-test
    ```
 2. Instala las dependencias:
    ```sh
