@@ -1,5 +1,19 @@
+import { useState } from "react";
+
 const Cart = ({ cartItems, removeFromCart }) => {
-  const total = cartItems.reduce((sum, item) => sum + item.price, 0);
+  const [removingIndex, setRemovingIndex] = useState(null);
+  const total = cartItems.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+
+  const handleRemove = (productId) => {
+    setRemovingIndex(productId);
+    setTimeout(() => {
+      removeFromCart(productId);
+      setRemovingIndex(null);
+    }, 400);
+  };
 
   return (
     <div className="cart">
@@ -9,8 +23,8 @@ const Cart = ({ cartItems, removeFromCart }) => {
       ) : (
         <>
           <ul>
-            {cartItems.map((item, idx) => (
-              <li key={idx}>
+            {cartItems.map((item) => (
+              <li key={item.id} className={removingIndex === item.id ? "removing" : ""}>
                 <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
                   <img
                     src={item.image}
@@ -23,10 +37,19 @@ const Cart = ({ cartItems, removeFromCart }) => {
                     }}
                   />
                   <span>{item.title}</span>
+                  <span style={{ fontWeight: "bold", marginLeft: 8 }}>
+                    x{item.quantity}
+                  </span>
                 </div>
                 <div className="cart-item-actions">
-                  <span className="cart-item-price">${item.price.toFixed(2)}</span>
-                  <button className="cart-remove-btn" onClick={() => removeFromCart(idx)}>
+                  <span className="cart-item-price">
+                    ${(item.price * item.quantity).toFixed(2)}
+                  </span>
+                  <button
+                    className="cart-remove-btn"
+                    onClick={() => handleRemove(item.id)}
+                    disabled={removingIndex === item.id}
+                  >
                     Eliminar
                   </button>
                 </div>
