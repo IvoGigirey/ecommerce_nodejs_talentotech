@@ -25,6 +25,7 @@ function FloatingCartButton({ count, showAdded }) {
         flexDirection: "column",
         alignItems: "center",
       }}
+      className="floating-cart-container"
     >
       {showAdded && <div className="cart-added-message">Producto añadido</div>}
       <button
@@ -43,17 +44,18 @@ function App() {
   const [cartItems, setCartItems] = useState([]);
   const [showAdded, setShowAdded] = useState(false);
 
-  const addToCart = (product) => {
+  const addToCart = (product, quantity) => {
     setCartItems((prevItems) => {
-      const found = prevItems.find((item) => item.id === product.id);
-      if (found) {
+      const existingItem = prevItems.find((item) => item.id === product.id);
+      if (existingItem) {
         return prevItems.map((item) =>
           item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
+            ? { ...item, quantity: item.quantity + quantity }
             : item
         );
+      } else {
+        return [...prevItems, { ...product, quantity }];
       }
-      return [...prevItems, { ...product, quantity: 1 }];
     });
     setShowAdded(true);
     setTimeout(() => setShowAdded(false), 1500);
@@ -71,6 +73,8 @@ function App() {
     );
   };
 
+  const clearCart = () => setCartItems([]);
+
   return (
     <Router>
       <Navbar cartCount={cartItems.length} />
@@ -81,7 +85,11 @@ function App() {
             path="/cart"
             element={
               <ProtectedRoute isAllowed={cartItems.length > 0}>
-                <Cart cartItems={cartItems} removeFromCart={removeFromCart} />
+                <Cart
+                  cartItems={cartItems}
+                  removeFromCart={removeFromCart}
+                  clearCart={clearCart}
+                />
               </ProtectedRoute>
             }
           />

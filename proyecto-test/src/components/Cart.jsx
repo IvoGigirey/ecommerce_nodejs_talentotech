@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const Cart = ({ cartItems, removeFromCart }) => {
+const Cart = ({ cartItems, removeFromCart, clearCart }) => {
   const [removingIndex, setRemovingIndex] = useState(null);
   const total = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
@@ -22,10 +22,21 @@ const Cart = ({ cartItems, removeFromCart }) => {
         <p>El carrito está vacío.</p>
       ) : (
         <>
+          <button
+            style={{ marginBottom: "1rem", background: "#ff5252" }}
+            onClick={clearCart}
+          >
+            Vaciar carrito
+          </button>
           <ul>
             {cartItems.map((item) => (
-              <li key={item.id} className={removingIndex === item.id ? "removing" : ""}>
-                <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+              <li
+                key={item.id}
+                className={removingIndex === item.id ? "removing" : ""}
+              >
+                <div
+                  style={{ display: "flex", alignItems: "center", gap: "1rem" }}
+                >
                   <img
                     src={item.image}
                     alt={item.title}

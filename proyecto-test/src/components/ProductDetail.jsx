@@ -10,15 +10,15 @@ const ProductDetail = ({ addToCart }) => {
   useEffect(() => {
     setLoading(true);
     fetch(`https://fakestoreapi.com/products/${id}`)
-      .then(res => {
+      .then((res) => {
         if (!res.ok) throw new Error("Error al cargar el producto");
         return res.json();
       })
-      .then(data => {
+      .then((data) => {
         setProduct(data);
         setLoading(false);
       })
-      .catch(err => {
+      .catch((err) => {
         setError(err.message);
         setLoading(false);
       });
@@ -30,11 +30,15 @@ const ProductDetail = ({ addToCart }) => {
 
   return (
     <div className="product-detail-container">
-      <Link to="/" className="back-link">← Volver</Link>
+      <Link to="/" className="back-link">
+        ← Volver
+      </Link>
       <h2>{product.title}</h2>
       <img src={product.image} alt={product.title} />
       <p>{product.description}</p>
-      <div className="price"><b>Precio:</b> ${product.price}</div>
+      <div className="price">
+        <p>Precio: ${product.price}</p>
+      </div>
       <button onClick={() => addToCart(product)}>Agregar al carrito</button>
     </div>
   );
