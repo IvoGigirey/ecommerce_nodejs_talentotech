@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const ProductItem = ({ product, addToCart }) => {
   const [quantity, setQuantity] = useState(1);
@@ -7,6 +8,11 @@ const ProductItem = ({ product, addToCart }) => {
   const handleAddToCart = () => {
     addToCart(product, quantity);
     setQuantity(1);
+    Swal.fire({
+      title: "Producto agregado",
+      html: `${product.title}<br>x${quantity}<br>Ha sido agregado al carrito.`,
+      icon: "success",
+    });
   };
 
   return (
@@ -21,7 +27,7 @@ const ProductItem = ({ product, addToCart }) => {
       <p>Precio: ${product.price}</p>
       <div className="product-quantity">
         <label>
-          <p>Cantidad:{" "}</p>
+          <p>Cantidad: </p>
           <input
             type="number"
             min="1"

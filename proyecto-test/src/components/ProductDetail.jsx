@@ -1,11 +1,13 @@
 import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 
 const ProductDetail = ({ addToCart }) => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
     setLoading(true);
@@ -24,6 +26,16 @@ const ProductDetail = ({ addToCart }) => {
       });
   }, [id]);
 
+  const handleAddToCart = () => {
+    addToCart(product, quantity);
+    setQuantity(1);
+    Swal.fire({
+      title: "Producto agregado",
+      html: `${product.title}<br>x${quantity}<br>Ha sido agregado al carrito.`,
+      icon: "success",
+    });
+  };
+
   if (loading) return <p>Cargando producto...</p>;
   if (error) return <p>Error: {error}</p>;
   if (!product) return null;
@@ -39,7 +51,19 @@ const ProductDetail = ({ addToCart }) => {
       <div className="price">
         <p>Precio: ${product.price}</p>
       </div>
-      <button onClick={() => addToCart(product)}>Agregar al carrito</button>
+      <div className="product-quantity">
+        <label>
+          <p>Cantidad: </p>
+          <input
+            type="number"
+            min="1"
+            value={quantity}
+            onChange={(e) => setQuantity(Number(e.target.value))}
+            style={{ width: "60px" }}
+          />
+        </label>
+      </div>
+      <button onClick={handleAddToCart}>Agregar al carrito</button>
     </div>
   );
 };

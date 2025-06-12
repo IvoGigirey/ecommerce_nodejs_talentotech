@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Swal from "sweetalert2";
 
 const Cart = ({ cartItems, removeFromCart, clearCart }) => {
   const [removingIndex, setRemovingIndex] = useState(null);
@@ -15,6 +16,17 @@ const Cart = ({ cartItems, removeFromCart, clearCart }) => {
     }, 400);
   };
 
+  const handleClear = () => {
+    Swal.fire({
+      title: "Carrito vaciado",
+      text: "Todos los productos han sido eliminados del carrito.",
+      icon: "success",
+    }).then(() => {
+      sessionStorage.setItem("cartJustCleared", "true");
+      clearCart();
+    });
+  };
+
   return (
     <div className="cart">
       <h2>Carrito de compras</h2>
@@ -24,7 +36,7 @@ const Cart = ({ cartItems, removeFromCart, clearCart }) => {
         <>
           <button
             style={{ marginBottom: "1rem", background: "#ff5252" }}
-            onClick={clearCart}
+            onClick={handleClear}
           >
             Vaciar carrito
           </button>

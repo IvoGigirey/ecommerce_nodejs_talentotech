@@ -27,7 +27,6 @@ function FloatingCartButton({ count, showAdded }) {
       }}
       className="floating-cart-container"
     >
-      {showAdded && <div className="cart-added-message">Producto añadido</div>}
       <button
         className="floating-cart-btn"
         onClick={() => navigate("/cart")}
@@ -43,6 +42,7 @@ function FloatingCartButton({ count, showAdded }) {
 function App() {
   const [cartItems, setCartItems] = useState([]);
   const [showAdded, setShowAdded] = useState(false);
+  const [authenticated, setAuthenticated] = useState(false);
 
   const addToCart = (product, quantity) => {
     setCartItems((prevItems) => {
@@ -80,7 +80,7 @@ function App() {
       <Navbar cartCount={cartItems.length} />
       <div className="app">
         <Routes>
-          <Route path="/" element={<ProductList addToCart={addToCart} />} />
+          <Route path="/" element={<ProductList addToCart={addToCart}/>} />
           <Route
             path="/cart"
             element={
