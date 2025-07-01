@@ -4,13 +4,17 @@ import {
   Routes,
   Route,
   useNavigate,
+  Navigate,
 } from "react-router-dom";
+import { useAuthContext } from "./context/AuthContext";
 import ProductList from "./components/ProductList";
 import Cart from "./components/Cart";
 import ProductDetail from "./components/ProductDetail";
 import Navbar from "./components/Navbar";
 import ProtectedRoute from "./components/ProtectedRoute";
 import "./App.css";
+import Login from "./components/Login";
+import Admin from "./components/Admin";
 
 function FloatingCartButton({ count, showAdded }) {
   const navigate = useNavigate();
@@ -42,7 +46,10 @@ function FloatingCartButton({ count, showAdded }) {
 function App() {
   const [cartItems, setCartItems] = useState([]);
   const [showAdded, setShowAdded] = useState(false);
-  const [authenticated, setAuthenticated] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isUser, setIsUser] = useState(false);
+  const { user } = useAuthContext();
+  const [productos, setProductos] = useState([]);
 
   const addToCart = (product, quantity) => {
     setCartItems((prevItems) => {
@@ -77,10 +84,18 @@ function App() {
 
   return (
     <Router>
-      <Navbar cartCount={cartItems.length} />
+      <Navbar cartCount={cartItems.length} isAdmin={isAdmin} isUser={isUser} />
       <div className="app">
         <Routes>
-          <Route path="/" element={<ProductList addToCart={addToCart}/>} />
+          <Route
+            path="/"
+            element={
+              <ProductList
+                addToCart={addToCart}
+                productosExtra={productos} // productos es el estado global de productos agregados por admin
+              />
+            }
+          />
           <Route
             path="/cart"
             element={
@@ -95,7 +110,14 @@ function App() {
           />
           <Route
             path="/product/:id"
-            element={<ProductDetail addToCart={addToCart} />}
+            element={<ProductDetail addToCart={addToCart} productosExtra={productos} />}
+          />
+          <Route path="/login" element={<Login setIsAdmin={setIsAdmin} />} />
+          <Route
+            path="/admin"
+            element={
+              <Admin productos={productos} setProductos={setProductos} />
+            }
           />
         </Routes>
         <FloatingCartButton count={cartItems.length} showAdded={showAdded} />

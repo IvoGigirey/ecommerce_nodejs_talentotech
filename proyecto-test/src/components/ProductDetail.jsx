@@ -2,7 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
-const ProductDetail = ({ addToCart }) => {
+const ProductDetail = ({ addToCart, productosExtra = [] }) => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -10,21 +10,33 @@ const ProductDetail = ({ addToCart }) => {
   const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
-    setLoading(true);
-    fetch(`https://fakestoreapi.com/products/${id}`)
-      .then((res) => {
-        if (!res.ok) throw new Error("Error al cargar el producto");
-        return res.json();
-      })
-      .then((data) => {
-        setProduct(data);
+    // Si el id empieza con "admin-", es un producto local
+    if (id.startsWith("admin-")) {
+      const localProduct = productosExtra.find((p, idx) => `admin-${idx + 1}` === id);
+      if (localProduct) {
+        setProduct(localProduct);
         setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
+      } else {
+        setError("Producto no encontrado");
         setLoading(false);
-      });
-  }, [id]);
+      }
+    } else {
+      setLoading(true);
+      fetch(`https://fakestoreapi.com/products/${id}`)
+        .then((res) => {
+          if (!res.ok) throw new Error("Error al cargar el producto");
+          return res.json();
+        })
+        .then((data) => {
+          setProduct(data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          setError(err.message);
+          setLoading(false);
+        });
+    }
+  }, [id, productosExtra]);
 
   const handleAddToCart = () => {
     addToCart(product, quantity);
@@ -46,7 +58,8 @@ const ProductDetail = ({ addToCart }) => {
         ← Volver
       </Link>
       <h2>{product.title}</h2>
-      <img src={product.image} alt={product.title} />
+      {/* Si el producto local no tiene imagen, no la muestres */}
+      {product.image && <img src={product.image} alt={product.title} />}
       <p>{product.description}</p>
       <div className="price">
         <p>Precio: ${product.price}</p>
