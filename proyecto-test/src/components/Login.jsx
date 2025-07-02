@@ -13,7 +13,7 @@ function Login({ setIsAdmin }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (username === "admin" && password === "1234") {
-      setIsAdmin(true); // Esto actualiza el estado global
+      setIsAdmin(true);
       login(username);
       Swal.fire({
         title: "¡Login exitoso!",
