@@ -1,20 +1,17 @@
-import React, { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(() => localStorage.getItem("token"));
+  const [user, setUser] = useState(() => localStorage.getItem("user"));
 
   const login = (username) => {
-    const fakeToken = `${username}-token-${Date.now()}`;
-    localStorage.setItem("token", fakeToken);
+    localStorage.setItem("user", username);
     setUser(username);
-    return { success: true, token: fakeToken };
   };
 
   const logout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("user");
     setUser(null);
   };
 
@@ -25,4 +22,6 @@ export function AuthProvider({ children }) {
   );
 }
 
-export const useAuthContext = () => useContext(AuthContext);
+export function useAuthContext() {
+  return useContext(AuthContext);
+}

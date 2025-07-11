@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { useCarritoContext } from "../context/CarritoContext";
 
-const ProductItem = ({ product, addToCart }) => {
+const ProductItem = ({ product }) => {
   const [quantity, setQuantity] = useState(1);
+  const { addToCart } = useCarritoContext();
 
   const handleAddToCart = () => {
     addToCart(product, quantity);

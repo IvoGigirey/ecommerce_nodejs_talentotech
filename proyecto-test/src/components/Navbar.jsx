@@ -1,8 +1,12 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useCarritoContext } from "../context/CarritoContext";
 
-const Navbar = ({ cartCount, isAdmin, isUser }) => {
+const Navbar = ({ isAdmin, isUser }) => {
   const [open, setOpen] = useState(false);
+  const { cartItems } = useCarritoContext();
+
+  const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <nav className="navbar">
@@ -40,9 +44,7 @@ const Navbar = ({ cartCount, isAdmin, isUser }) => {
           className="nav-link nav-cart"
           onClick={() => setOpen(false)}
         >
-          <span role="img" aria-label="cart">
-            🛒
-          </span>
+          <span role="img" aria-label="cart">🛒</span>
           {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
         </Link>
       </div>

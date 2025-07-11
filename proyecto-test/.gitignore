@@ -12,6 +12,7 @@ dist
 dist-ssr
 *.local
 src/auth/firebase.js
+/agregar.md
 
 # Editor directories and files
 .vscode/*

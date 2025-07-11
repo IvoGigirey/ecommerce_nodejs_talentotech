@@ -1,8 +1,11 @@
+import { useCarritoContext } from "../context/CarritoContext";
 import { useState } from "react";
 import Swal from "sweetalert2";
 
-const Cart = ({ cartItems, removeFromCart, clearCart }) => {
+const Cart = () => {
+  const { cartItems, removeFromCart, clearCart } = useCarritoContext();
   const [removingIndex, setRemovingIndex] = useState(null);
+
   const total = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
@@ -49,16 +52,18 @@ const Cart = ({ cartItems, removeFromCart, clearCart }) => {
                 <div
                   style={{ display: "flex", alignItems: "center", gap: "1rem" }}
                 >
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    style={{
-                      width: 40,
-                      height: 40,
-                      objectFit: "contain",
-                      borderRadius: 4,
-                    }}
-                  />
+                  {item.image && (
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      style={{
+                        width: 40,
+                        height: 40,
+                        objectFit: "contain",
+                        borderRadius: 4,
+                      }}
+                    />
+                  )}
                   <span>{item.title}</span>
                   <span style={{ fontWeight: "bold", marginLeft: 8 }}>
                     x{item.quantity}
