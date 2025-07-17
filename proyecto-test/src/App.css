@@ -19,6 +19,73 @@ h2 {
   text-align: center;
 }
 
+.admin-panel {
+  text-align: center;
+}
+
+.admin-panel h2 {
+  font-size: 2em;
+}
+
+.admin-panel ul, li{
+  text-align: left;
+}
+
+.logout-button {
+  margin-bottom: "1rem";
+  padding: "0.5rem 1rem";
+  background: "#222";
+  color: "#fff";
+  border: "none";
+  border-radius: "4px";
+  cursor: "pointer";
+}
+
+.add-product-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  width: 100%;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 400px;
+  margin: 0 auto;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  padding: 1em;
+}
+
+.page-buttons {
+  padding: 0.5rem 1rem;
+  background: rgb(238, 238, 238);
+  color: rgb(34, 34, 34);
+  border: medium;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.page-buttons:hover {
+  background: rgb(210, 210, 210);
+}
+
+.page-buttons-div {
+  margin: 1rem 0px;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
 .product-quantity {
   display: flex;
   align-items: center;
@@ -82,7 +149,6 @@ h2 {
 }
 
 .product-item button {
-  /* margin-top: auto; */
   padding: 0.5rem 1.2rem;
   background: #1976d2;
   color: #fff;
@@ -454,6 +520,9 @@ button:hover {
   .navbar-burger {
     display: flex;
   }
+  .login-container {
+    width: 100%;
+  }
 }
 
 @keyframes fadeInMenu {
@@ -507,12 +576,10 @@ button:hover {
     gap: 0.5rem;
   }
   .product-item {
-    width: 95vw;
     max-width: 320px;
   }
   .cart {
     max-width: 98vw;
-    /* padding: 0.5rem; */
     font-size: 0.97rem;
   }
   .cart ul {
@@ -551,5 +618,11 @@ button:hover {
     top: 6px;
     right: 6px;
     padding: 0.15em 0.5em;
+  }
+  .login-container{
+    width: 80%;
+  }
+  .login-form {
+    width: 80%;
   }
 }

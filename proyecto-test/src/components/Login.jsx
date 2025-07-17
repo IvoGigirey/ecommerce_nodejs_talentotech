@@ -4,25 +4,37 @@ import { useAuthContext } from "../context/AuthContext";
 import { createUser as firebaseCreateUser } from "../auth/firebase";
 import Swal from "sweetalert2";
 
-function Login({ setIsAdmin }) {
+function Login() {
   const { login } = useAuthContext();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [registerUsername, setRegisterUsername] = useState("");
+  const [registerPassword, setRegisterPassword] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (username === "admin" && password === "1234") {
-      setIsAdmin(true);
-      login(username);
+      login(username, true);
       Swal.fire({
         title: "¡Login exitoso!",
-        text: "Bienvenido, admin.",
+        text: "Bienvenido, " + username,
         icon: "success",
         timer: 1500,
         showConfirmButton: false,
       }).then(() => {
         navigate("/admin");
+      });
+    } else if (username === "user" && password === "1234") {
+      login(username, false);
+      Swal.fire({
+        title: "¡Login exitoso!",
+        text: "Bienvenido, " + username,
+        icon: "success",
+        timer: 1500,
+        showConfirmButton: false,
+      }).then(() => {
+        navigate("/");
       });
     } else {
       Swal.fire({
@@ -36,7 +48,7 @@ function Login({ setIsAdmin }) {
   async function handleRegister(e) {
     e.preventDefault();
     try {
-      await firebaseCreateUser(username, password);
+      await firebaseCreateUser(registerUsername, registerPassword);
       Swal.fire({
         title: "¡Registro exitoso!",
         text: "Ya puedes iniciar sesión.",
@@ -55,9 +67,9 @@ function Login({ setIsAdmin }) {
   }
 
   return (
-    <div>
+    <div className="login-container">
       <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="login-form">
         <input
           type="text"
           placeholder="Usuario"
@@ -72,18 +84,22 @@ function Login({ setIsAdmin }) {
         />
         <button type="submit">Ingresar</button>
       </form>
-      <form onSubmit={handleRegister}>
+      <form
+        onSubmit={handleRegister}
+        className="login-form"
+        style={{ marginTop: "50px" }}
+      >
         <input
           type="text"
           placeholder="Email"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={registerUsername}
+          onChange={(e) => setRegisterUsername(e.target.value)}
         />
         <input
           type="password"
           placeholder="Contraseña"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={registerPassword}
+          onChange={(e) => setRegisterPassword(e.target.value)}
         />
         <button type="submit">Registrarse</button>
       </form>

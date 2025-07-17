@@ -18,21 +18,30 @@ export default function ProductForm({ onProductAdded }) {
       return;
     }
     if (description.length < 10) {
-      Swal.fire("Error", "La descripción debe tener al menos 10 caracteres.", "error");
+      Swal.fire(
+        "Error",
+        "La descripción debe tener al menos 10 caracteres.",
+        "error"
+      );
       return;
     }
 
     setLoading(true);
     try {
-      const res = await fetch("https://687132af7ca4d06b34b9af59.mockapi.io/productos", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title, description, price: Number(price) }),
-      });
+      const res = await fetch(
+        "https://687132af7ca4d06b34b9af59.mockapi.io/productos",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ title, description, price: Number(price) }),
+        }
+      );
       if (!res.ok) throw new Error("Error al crear producto");
       const newProduct = await res.json();
       Swal.fire("¡Éxito!", "Producto agregado correctamente.", "success");
-      setTitle(""); setDescription(""); setPrice("");
+      setTitle("");
+      setDescription("");
+      setPrice("");
       onProductAdded(newProduct);
     } catch (err) {
       Swal.fire("Error", err.message, "error");
@@ -42,28 +51,30 @@ export default function ProductForm({ onProductAdded }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="add-product-form">
       <h2>Agregar producto</h2>
       <input
         type="text"
         placeholder="Nombre"
         value={title}
-        onChange={e => setTitle(e.target.value)}
+        onChange={(e) => setTitle(e.target.value)}
       />
       <input
         type="number"
         placeholder="Precio"
         value={price}
-        onChange={e => setPrice(e.target.value)}
+        onChange={(e) => setPrice(e.target.value)}
         min="0"
         step="0.01"
       />
       <textarea
         placeholder="Descripción"
         value={description}
-        onChange={e => setDescription(e.target.value)}
+        onChange={(e) => setDescription(e.target.value)}
       />
-      <button type="submit" disabled={loading}>Agregar</button>
+      <button type="submit" disabled={loading}>
+        Agregar
+      </button>
     </form>
   );
 }

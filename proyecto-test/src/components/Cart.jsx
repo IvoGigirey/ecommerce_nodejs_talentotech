@@ -1,10 +1,17 @@
 import { useCarritoContext } from "../context/CarritoContext";
 import { useState } from "react";
 import Swal from "sweetalert2";
+import { useAuthContext } from "../context/AuthContext";
+import { Navigate } from "react-router-dom";
 
 const Cart = () => {
   const { cartItems, removeFromCart, clearCart } = useCarritoContext();
   const [removingIndex, setRemovingIndex] = useState(null);
+  const { user } = useAuthContext();
+
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
 
   const total = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,

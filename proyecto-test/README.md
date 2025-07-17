@@ -50,6 +50,7 @@ Este proyecto es una tienda online desarrollada en React que permite a los usuar
 - **Agregar al carrito**: Desde la lista o el detalle puedes agregar productos al carrito y ver el total en el botón flotante.
 - **Gestionar el carrito**: Accede al carrito para modificar cantidades, eliminar productos o vaciar el carrito.
 - **Panel de administración**: Inicia sesión como administrador para acceder al panel, donde puedes crear, editar y eliminar productos. El panel incluye validaciones y confirmaciones antes de eliminar.
+- **Credenciales de admin hardcodeadas**: Usuario: admin - Clave: 1234
 
 ## API de productos
 

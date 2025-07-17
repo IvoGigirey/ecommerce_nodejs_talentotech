@@ -53,6 +53,12 @@ const ProductList = ({ productosExtra = [] }) => {
     currentPage * productsPerPage
   );
 
+  const goToPage = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
   const handlePageChange = (page) => setCurrentPage(page);
 
   if (loading) return <p>Cargando productos...</p>;
@@ -110,6 +116,13 @@ const ProductList = ({ productosExtra = [] }) => {
           gap: "0.5rem",
         }}
       >
+        <button
+          onClick={() => goToPage(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="page-buttons"
+        >
+          Anterior
+        </button>
         {Array.from({ length: totalPages }, (_, i) => (
           <button
             key={i + 1}
@@ -117,17 +130,25 @@ const ProductList = ({ productosExtra = [] }) => {
             disabled={currentPage === i + 1}
             style={{
               padding: "0.5rem 1rem",
-              background: currentPage === i + 1 ? "#222" : "#eee",
-              color: currentPage === i + 1 ? "#fff" : "#222",
+              background: currentPage === i + 1 ? "#EEEEEE" : "#eee",
+              color: currentPage === i + 1 ? "#000000" : "#222",
               border: "none",
               borderRadius: "4px",
               cursor: "pointer",
+              fontWeight: currentPage === i + 1 ? "bold" : "normal",
             }}
             aria-label={`Página ${i + 1}`}
           >
             {i + 1}
           </button>
         ))}
+        <button
+          onClick={() => goToPage(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className="page-buttons"
+        >
+          Siguiente
+        </button>
       </div>
     </div>
   );
